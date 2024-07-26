@@ -28,11 +28,8 @@ public class UserService {
     }
 
     public User login(LoginDTO loginDTO) {
-        User user = userRepository.findByEmailAndPassword(loginDTO.email(), loginDTO.password());
-        if (user == null) {
-            throw new ResourceNotFoundException("Invalid credentials");
-        }
-        return user;
+        return userRepository.findByEmailAndPassword(loginDTO.email(), loginDTO.password())
+                .orElseThrow(() -> new ResourceNotFoundException("Email ou senha inválidos"));
     }
 
     public List<User> getAllUsers() {
@@ -40,11 +37,11 @@ public class UserService {
     }
 
     public User getUserById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
     }
 
     public void updateUser(UUID id, UserDTO userDTO) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
         user.update(userDTO);
         userRepository.save(user);
     }

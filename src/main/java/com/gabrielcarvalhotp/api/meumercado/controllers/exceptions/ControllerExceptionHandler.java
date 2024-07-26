@@ -14,7 +14,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardException> handleResourceNotFoundException(ResourceNotFoundException exception, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardException standardException = new StandardException(LocalDateTime.now(), status.value(), "Resource not found", exception.getMessage());
         return ResponseEntity.status(status).body(standardException);
     }
